@@ -16,8 +16,6 @@ public final class DatabaseBuilder {
 		
         Statement stmt = null;
         try {
-            connection.setAutoCommit(false);
-            
             stmt = connection.createStatement();
             
             stmt.execute("CREATE TABLE SYSTEM(id int primary key, schema_version int)");

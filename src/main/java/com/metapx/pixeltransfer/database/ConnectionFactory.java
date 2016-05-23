@@ -14,6 +14,9 @@ public final class ConnectionFactory {
 	public static Connection newConnection(String filename) throws ClassNotFoundException, SQLException {
 		Class.forName(DB_DRIVER);
 
-		return DriverManager.getConnection(DB_CONNECTION_PREFIX + filename, DB_USER, DB_PASSWORD);
+		Connection connection = DriverManager.getConnection(DB_CONNECTION_PREFIX + filename, DB_USER, DB_PASSWORD);
+		connection.setAutoCommit(false);
+		
+		return connection;
 	}
 }
