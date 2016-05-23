@@ -16,6 +16,6 @@ public class HashCalculatorTest extends TestCase {
 			writer.println("This is a temp file");
 		}
 		
-		this.assertEquals("b4cb6570c34770fd8ab8600cdc33096c", HashCalculator.calculateStringDigest(file));
+		assertEquals("b4cb6570c34770fd8ab8600cdc33096c", HashCalculator.calculateStringDigest(file));
 	}
 }
