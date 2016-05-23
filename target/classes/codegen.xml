@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-2.3.0.xsd">
+    <jdbc>
+        <driver>org.h2.Driver</driver>
+        <url>jdbc:h2:test</url>
+        <user></user>
+        <password></password>
+    </jdbc>
+    <generator>
+        <name>org.jooq.util.DefaultGenerator</name>
+        <database>
+            <name>org.jooq.util.h2.H2Database</name>
+            <includes>.*</includes>
+            <excludes></excludes>
+            <inputSchema>PUBLIC</inputSchema>
+        </database>
+        <target>
+            <packageName>com.metapx.pixeltransfer.database.generated</packageName>
+            <directory>./src/main/java</directory>
+        </target>
+    </generator>
+</configuration>
