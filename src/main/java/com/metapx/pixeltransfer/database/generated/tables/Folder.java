@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Folder extends TableImpl<FolderRecord> {
 
-    private static final long serialVersionUID = 1512139959;
+    private static final long serialVersionUID = -1810190006;
 
     /**
      * The reference instance of <code>PUBLIC.FOLDER</code>
@@ -52,7 +53,7 @@ public class Folder extends TableImpl<FolderRecord> {
     /**
      * The column <code>PUBLIC.FOLDER.ID</code>.
      */
-    public final TableField<FolderRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<FolderRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_0DEAEC08_1E64_4D66_8182_141802E22A4C)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>PUBLIC.FOLDER.NAME</code>.
@@ -92,6 +93,14 @@ public class Folder extends TableImpl<FolderRecord> {
     @Override
     public Schema getSchema() {
         return Public.PUBLIC;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<FolderRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_FOLDER;
     }
 
     /**

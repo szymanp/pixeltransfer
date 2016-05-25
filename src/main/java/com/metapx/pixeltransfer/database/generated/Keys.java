@@ -13,6 +13,7 @@ import com.metapx.pixeltransfer.database.generated.tables.records.SystemRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
@@ -35,6 +36,8 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<ImageRecord, Integer> IDENTITY_IMAGE = Identities0.IDENTITY_IMAGE;
+    public static final Identity<FolderRecord, Integer> IDENTITY_FOLDER = Identities0.IDENTITY_FOLDER;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -52,6 +55,11 @@ public class Keys {
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
+
+    private static class Identities0 extends AbstractKeys {
+        public static Identity<ImageRecord, Integer> IDENTITY_IMAGE = createIdentity(Image.IMAGE, Image.IMAGE.ID);
+        public static Identity<FolderRecord, Integer> IDENTITY_FOLDER = createIdentity(Folder.FOLDER, Folder.FOLDER.ID);
+    }
 
     private static class UniqueKeys0 extends AbstractKeys {
         public static final UniqueKey<SystemRecord> CONSTRAINT_9 = createUniqueKey(System.SYSTEM, "CONSTRAINT_9", System.SYSTEM.ID);

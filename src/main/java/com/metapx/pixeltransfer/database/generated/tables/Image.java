@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Identity;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -34,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Image extends TableImpl<ImageRecord> {
 
-    private static final long serialVersionUID = 1619962688;
+    private static final long serialVersionUID = -336249331;
 
     /**
      * The reference instance of <code>PUBLIC.IMAGE</code>
@@ -52,7 +53,7 @@ public class Image extends TableImpl<ImageRecord> {
     /**
      * The column <code>PUBLIC.IMAGE.ID</code>.
      */
-    public final TableField<ImageRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ImageRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_6CE5C490_9DBC_46D9_B4CD_159866F97EFA)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>PUBLIC.IMAGE.NAME</code>.
@@ -87,6 +88,14 @@ public class Image extends TableImpl<ImageRecord> {
     @Override
     public Schema getSchema() {
         return Public.PUBLIC;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<ImageRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_IMAGE;
     }
 
     /**

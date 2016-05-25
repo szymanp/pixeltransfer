@@ -15,4 +15,3 @@ hs_err_pid*
 .classpath
 .project
 *.h2.db
-/target/
