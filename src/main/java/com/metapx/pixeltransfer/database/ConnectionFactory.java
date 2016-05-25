@@ -19,4 +19,15 @@ public final class ConnectionFactory {
 		
 		return connection;
 	}
+	
+	public static Connection newInMemoryConnection() throws Exception {
+		Class.forName(DB_DRIVER);
+
+		Connection connection = DriverManager.getConnection("jdbc:h2:mem:", DB_USER, DB_PASSWORD);
+		connection.setAutoCommit(false);
+		
+		new DatabaseBuilder(connection).build();
+		
+		return connection;
+	}
 }
