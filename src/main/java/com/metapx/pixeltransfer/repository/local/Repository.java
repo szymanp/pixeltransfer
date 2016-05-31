@@ -1,6 +1,7 @@
 package com.metapx.pixeltransfer.repository.local;
 
 import static com.metapx.pixeltransfer.database.generated.Tables.FOLDER;
+import static com.metapx.pixeltransfer.database.generated.Tables.IMAGE;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,17 +16,17 @@ import org.jooq.impl.DSL;
 
 import com.metapx.pixeltransfer.database.generated.Tables;
 import com.metapx.pixeltransfer.database.generated.tables.records.FolderRecord;
+import com.metapx.pixeltransfer.database.generated.tables.records.ImageFolderRecord;
+import com.metapx.pixeltransfer.database.generated.tables.records.ImageRecord;
 
 /**
  * Perform operations on the local image repository.
  */
 public final class Repository {
 
-	private Connection databaseConnection;
-	private DSLContext db;
+	private final DSLContext db;
 	
 	public Repository(Connection databaseConnection) {
-		this.databaseConnection = databaseConnection;
 		this.db = DSL.using(databaseConnection, SQLDialect.H2);
 	}
 	
@@ -46,7 +47,40 @@ public final class Repository {
 			throw new IOException("Could not calculate hash of file", e);
 		}
 		
+		int imageId = this.createImage(file, digest);
+		int folderId = this.createFolder(file.getParentFile().toPath());
+		addImageToFolder(imageId, folderId);
+	}
+	
+	/**
+	 * Creates an image if it does not exist yet.
+	 * @param file
+	 * @param digest
+	 * @return the ID of the image
+	 */
+	int createImage(File file, String digest) {
+		ImageRecord record = db.selectFrom(IMAGE)
+				.where(IMAGE.HASH.eq(digest))
+				.fetchOne();
 		
+		if (record == null) {
+			ImageRecord result = db.insertInto(IMAGE)
+					.set(IMAGE.NAME, file.getName())
+					.set(IMAGE.HASH, digest)
+					.set(IMAGE.STATE, ObjectState.ADD.toByte())
+					.returning(IMAGE.ID)
+					.fetchOne();
+			
+			return result.getId();
+		} else {
+			ObjectState state = ObjectState.valueOf(record.get(IMAGE.STATE));
+			
+			if (state == ObjectState.REMOVE) {
+				// TODO undo a remove
+			}
+			
+			return record.getId();
+		}
 	}
 	
 	int createFolder(Path folder) {
@@ -60,6 +94,27 @@ public final class Repository {
 		return parentId;
 	}
 	
+	void addImageToFolder(int imageId, int folderId) {
+		ImageFolderRecord record = db.selectFrom(Tables.IMAGE_FOLDER)
+				.where(Tables.IMAGE_FOLDER.IMAGE_ID.eq(imageId)
+						.and(Tables.IMAGE_FOLDER.FOLDER_ID.eq(folderId)))
+				.fetchOne();
+
+		if (record == null) {
+			db.insertInto(Tables.IMAGE_FOLDER)
+				.set(Tables.IMAGE_FOLDER.IMAGE_ID, imageId)
+				.set(Tables.IMAGE_FOLDER.FOLDER_ID, folderId)
+				.set(Tables.IMAGE_FOLDER.STATE, ObjectState.ADD.toByte())
+				.execute();
+		} else if (ObjectState.valueOf(record.getState()) == ObjectState.REMOVE) {
+			db.update(Tables.IMAGE_FOLDER)
+				.set(Tables.IMAGE_FOLDER.STATE, ObjectState.ADD.toByte())
+				.where(Tables.IMAGE_FOLDER.IMAGE_ID.eq(imageId)
+						.and(Tables.IMAGE_FOLDER.FOLDER_ID.eq(folderId)))
+				.execute();
+		}
+	}
+	
 	private int findOrCreateFolderElement(String name, int parentId) {
 		Record1<Integer> record = this.db
 				.select(FOLDER.ID)
@@ -70,7 +125,8 @@ public final class Repository {
 		if (record == null) {
 			FolderRecord result = this.db.insertInto(FOLDER)
 				   .set(FOLDER.NAME, name)
-				   .set(FOLDER.PARENT_ID, 0)
+				   .set(FOLDER.PARENT_ID, parentId)
+				   .set(FOLDER.STATE, ObjectState.ADD.toByte())
 				   .returning(FOLDER.ID)
 				   .fetchOne();
 			return result.getId();

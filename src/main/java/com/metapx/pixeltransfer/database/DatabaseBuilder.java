@@ -29,9 +29,18 @@ public final class DatabaseBuilder {
         Statement stmt = connection.createStatement();
             
         stmt.execute("CREATE TABLE SYSTEM(id int primary key, schema_version int)");
-        stmt.execute("CREATE TABLE IMAGE(id int auto_increment primary key, name varchar(255))");
-        stmt.execute("CREATE TABLE FOLDER(id int auto_increment primary key, name varchar(255), parent_id int)");
-        stmt.execute("CREATE TABLE IMAGE_FOLDER(image_id int, folder_id int)");
+        stmt.execute("CREATE TABLE IMAGE("
+        		+ "id int auto_increment primary key,"
+        		+ "name varchar(255),"
+        		+ "hash varchar(64),"
+        		+ "state tinyint)");
+        stmt.execute("CREATE UNIQUE INDEX IMAGE_01 ON IMAGE (hash)");
+        stmt.execute("CREATE TABLE FOLDER("
+        		+ "id int auto_increment primary key,"
+        		+ "name varchar(255),"
+        		+ "parent_id int,"
+        		+ "state tinyint)");
+        stmt.execute("CREATE TABLE IMAGE_FOLDER(image_id int, folder_id int, state tinyint)");
         stmt.execute("CREATE UNIQUE INDEX IMAGE_FOLDER_01 ON IMAGE_FOLDER (image_id, folder_id)");
 		stmt.execute("INSERT INTO SYSTEM(id, schema_version) VALUES(1, 1)");
 

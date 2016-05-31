@@ -29,7 +29,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ImageFolder extends TableImpl<ImageFolderRecord> {
 
-    private static final long serialVersionUID = 713051537;
+    private static final long serialVersionUID = 961198013;
 
     /**
      * The reference instance of <code>PUBLIC.IMAGE_FOLDER</code>
@@ -53,6 +53,11 @@ public class ImageFolder extends TableImpl<ImageFolderRecord> {
      * The column <code>PUBLIC.IMAGE_FOLDER.FOLDER_ID</code>.
      */
     public final TableField<ImageFolderRecord, Integer> FOLDER_ID = createField("FOLDER_ID", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>PUBLIC.IMAGE_FOLDER.STATE</code>.
+     */
+    public final TableField<ImageFolderRecord, Byte> STATE = createField("STATE", org.jooq.impl.SQLDataType.TINYINT, this, "");
 
     /**
      * Create a <code>PUBLIC.IMAGE_FOLDER</code> table reference

@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Folder extends TableImpl<FolderRecord> {
 
-    private static final long serialVersionUID = -1810190006;
+    private static final long serialVersionUID = 1303524305;
 
     /**
      * The reference instance of <code>PUBLIC.FOLDER</code>
@@ -53,7 +53,7 @@ public class Folder extends TableImpl<FolderRecord> {
     /**
      * The column <code>PUBLIC.FOLDER.ID</code>.
      */
-    public final TableField<FolderRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_0DEAEC08_1E64_4D66_8182_141802E22A4C)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<FolderRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_B0A71AEC_5D62_45DF_B9E5_3A37FA9FBD70)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>PUBLIC.FOLDER.NAME</code>.
@@ -64,6 +64,11 @@ public class Folder extends TableImpl<FolderRecord> {
      * The column <code>PUBLIC.FOLDER.PARENT_ID</code>.
      */
     public final TableField<FolderRecord, Integer> PARENT_ID = createField("PARENT_ID", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>PUBLIC.FOLDER.STATE</code>.
+     */
+    public final TableField<FolderRecord, Byte> STATE = createField("STATE", org.jooq.impl.SQLDataType.TINYINT, this, "");
 
     /**
      * Create a <code>PUBLIC.FOLDER</code> table reference

@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Image extends TableImpl<ImageRecord> {
 
-    private static final long serialVersionUID = -336249331;
+    private static final long serialVersionUID = -258327638;
 
     /**
      * The reference instance of <code>PUBLIC.IMAGE</code>
@@ -53,12 +53,22 @@ public class Image extends TableImpl<ImageRecord> {
     /**
      * The column <code>PUBLIC.IMAGE.ID</code>.
      */
-    public final TableField<ImageRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_6CE5C490_9DBC_46D9_B4CD_159866F97EFA)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<ImageRecord, Integer> ID = createField("ID", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.field("(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_90B0090A_7A87_405F_B9E1_EAD9D80B28C8)", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>PUBLIC.IMAGE.NAME</code>.
      */
     public final TableField<ImageRecord, String> NAME = createField("NAME", org.jooq.impl.SQLDataType.VARCHAR.length(255), this, "");
+
+    /**
+     * The column <code>PUBLIC.IMAGE.HASH</code>.
+     */
+    public final TableField<ImageRecord, String> HASH = createField("HASH", org.jooq.impl.SQLDataType.VARCHAR.length(64), this, "");
+
+    /**
+     * The column <code>PUBLIC.IMAGE.STATE</code>.
+     */
+    public final TableField<ImageRecord, Byte> STATE = createField("STATE", org.jooq.impl.SQLDataType.TINYINT, this, "");
 
     /**
      * Create a <code>PUBLIC.IMAGE</code> table reference
